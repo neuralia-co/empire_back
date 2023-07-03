@@ -9,9 +9,10 @@ app.use(cors());
 const PORT = 3001;
 
 app.get("/api/ping", (_req, res) => {
-    console.log("someone pinged here");
     const date = new Date;
-    res.send("pong at " + (date.getUTCHours() + 2) + ":" + date.getUTCMinutes());
+    const info = "pong at " + (date.getUTCHours() + 2) + ":" + date.getUTCMinutes();
+    console.log(info);
+    res.send(info);
 });
 
 app.listen(PORT, () => {
