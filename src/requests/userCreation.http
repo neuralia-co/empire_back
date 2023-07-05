@@ -7,8 +7,8 @@ POST http://localhost:3001/api/users
 Content-Type: application/json
 
 {
-  "id": 424242,
-  "username": "typeFan",
+  "id": 1,
+  "username": "matthieu",
   "name": "Matt leCoder"
 }
 
