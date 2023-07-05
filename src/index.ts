@@ -1,12 +1,18 @@
 import express from "express";
-import cors from "cors";
+import { PORT } from "./utils/config";
+import { connectToDatabase } from "./utils/db";
 const app = express();
-app.use(express.json());
-app.use(express.static("build"));
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-app.use(cors());
 
-const PORT = process.env.PORT || 3001;
+import notesRouter from "./controllers/notes";
+import usersRouter from "./controllers/users";
+import loginRouter from "./controllers/login";
+
+app.use(express.json());
+
+app.use("/api/notes", notesRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/login", loginRouter);
+
 
 app.get("/api/ping", (_req, res) => {
     const date = new Date;
@@ -15,14 +21,11 @@ app.get("/api/ping", (_req, res) => {
     res.send(info);
 });
 
-const server = app.listen(PORT, () => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const host = server.address().address;
+const server = app.listen(PORT, async () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const port = server.address().port;
-    console.log("App listening at http://%s:%s", host, port);
+    await connectToDatabase();
+    console.log("App listening on port : ", port);
 });
