@@ -1,0 +1,31 @@
+### Login
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+  "username": "typeFan",
+  "password": "motdepasse"
+}
+
+> {%
+    client.global.set("auth_token", response.body.token);
+%}
+
+### Get all notes
+GET http://localhost:3001/api/notes
+Content-Type: application/json
+
+### Get one notes
+GET http://localhost:3001/api/notes/2
+Content-Type: application/json
+
+
+### Create note
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "content":"A WELL TYPED NOTE !!!!"
+}
+
