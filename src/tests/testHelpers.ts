@@ -1,14 +1,13 @@
-import { Note, User } from "../models";
+import { User } from "../models";
+import { InferAttributes } from "sequelize";
 
 const usersInDb = async () => {
-    const users = await User.findAll({
-        include: {
-            model: Note,
-            attributes: { exclude: ["userId"] }
-        }
-    });
+    console.log(2);
+    const users = await User.findAll();
 
-    return users.map(u => u.toJSON());
+    const mapped: InferAttributes<User>[] = users.map(u => u.toJSON());
+    console.log(mapped);
+    return mapped;
 };
 
 

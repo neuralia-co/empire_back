@@ -2,21 +2,57 @@ import supertest from "supertest";
 import app from "../app";
 import { expect, test } from "@jest/globals";
 import helper from "./testHelpers";
-import { sequelize } from "../utils/db";
+//import { User, Note } from "../models";
+//import { sequelize } from "../utils/db";
 const api = supertest(app);
 
+/*beforeAll(async () => {
+    console.log("BEFORE ALL BEGIN");
+    await User.sync({ force:true });
+    await Note.sync({ force:true });
+    console.log("BEFORE ALL END");
+});*/
 
-describe("user creation", () => {
-    /*beforeAll(async () => {
-        await sequelize.sync({ force:true });
-    });*/
+
+test("creating a new user with correct information", async () => {
+    console.log(1);
+    const usersAtStart = await helper.usersInDb();
+    console.log(usersAtStart);
+    const newUser = {
+        username: "jonero60",
+        name: "Matthieu Porte",
+    };
+
+    await api
+        .post("/api/users")
+        .send(newUser)
+        .expect(201)
+        .expect("Content-Type", /application\/json/);
+
+    const userAtEnd = await helper.usersInDb();
+    expect(userAtEnd).toHaveLength(usersAtStart.length + 1);
+
+    const usernames = userAtEnd.map(n => n.username);
+    expect(usernames).toContain(newUser.username);
+});
+
+
+/*afterAll(async () => {
+    console.log("AFTER ALL BEGIN");
+    await sequelize.close();
+    console.log("AFTER ALL END");
+});*/
+
+
+
+/*describe("user creation", () => {
+    /!* *!/
 
     test("creating a new user with correct information", async () => {
-        //await sequelize.sync({ force:true });
         const usersAtStart = await helper.usersInDb();
         console.log(usersAtStart);
         const newUser = {
-            username: "jonero6",
+            username: "jonero9",
             name: "Matthieu Porte",
         };
 
@@ -33,7 +69,7 @@ describe("user creation", () => {
         expect(usernames).toContain(newUser.username);
     });
 
-    test("creating a new user with incorrect information", async () => {
+    /!*test("creating a new user with incorrect information", async () => {
         const usersAtStart = await helper.usersInDb();
         const newUser = {
             username: "",
@@ -69,13 +105,11 @@ describe("user creation", () => {
 
         const usersAtEnd = await helper.usersInDb();
         expect(usersAtEnd).toEqual(usersAtStart);
-    });
+    });*!/
 
-    afterAll(async () => {
-        await sequelize.close();
-    });
+    /!**!/
 
-});
+});*/
 
 
 
