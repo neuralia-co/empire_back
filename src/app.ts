@@ -1,5 +1,4 @@
 import express from "express";
-
 const app = express();
 
 import notesRouter from "./controllers/notes";

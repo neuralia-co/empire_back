@@ -9,14 +9,16 @@ export const sequelize = new Sequelize(DATABASE_URL, {
             rejectUnauthorized: false
         }
     },
+    logging: false
 });
 
 export const connectToDatabase = async () => {
     try {
+        console.log("authentification... ");
         await sequelize.authenticate();
         console.log("connected to the database");
     } catch (err) {
-        console.log("failed to connect to the database");
+        console.log("failed to connect to the database with the following error: " + err);
         return process.exit(1);
     }
 

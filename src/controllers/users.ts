@@ -12,7 +12,7 @@ router.get("/", async (_req, res) => {
 router.post("/", async (req: TypedRequestBody<{ username: string, password: string, name: string }>, res)  => {
     try {
         const user = await User.create(req.body);
-        res.json(user);
+        res.status(201).json(user);
     } catch(error) {
         res.status(400).json({ error });
     }
