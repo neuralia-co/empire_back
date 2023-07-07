@@ -1,30 +1,48 @@
 import express from "express";
 const router = express.Router();
+import prisma from "../utils/prisma";
 
-import { User } from "../models";
-import { TypedRequestBody } from "../utils/types";
 
-router.get("/", async (_req, res) => {
-    const users = await User.findAll();
-    res.json(users);
-});
-
-router.post("/", async (req: TypedRequestBody<{ username: string, password: string, name: string }>, res)  => {
+router.post("/", async (req, res) => {
     try {
-        const user = await User.create(req.body);
-        res.status(201).json(user);
-    } catch(error) {
-        res.status(400).json({ error });
+        const { email,name } = req.body;
+
+        const newUser = await prisma.user.create({
+            data: {
+                name,
+                email
+            },
+        });
+
+        res.json(newUser);
+    } catch (error: any) {
+        console.log(error.message);
+        res.status(500).json({
+            message: "Internal Server Error",
+        });
     }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/", async (_req, res) => {
+    try {
+        const users = await prisma.user.findMany();
+
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({
+            message: "Something went wrong",
+        });
+    }
+});
+
+
+/*router.get("/:id", async (req, res) => {
     const user = await User.findByPk(req.params.id);
     if (user) {
         res.json(user);
     } else {
         res.status(404).end();
     }
-});
+});*/
 
 export default router;

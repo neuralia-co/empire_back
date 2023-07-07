@@ -4,13 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev ./src/index.ts NODE_ENV=development",
+    "dev": "export NODE_ENV=development && ts-node-dev ./src/index.ts ",
     "lint": "eslint --ext .ts .",
     "build-ts": "tsc",
     "build": "npm run build-ts && npm run lint",
     "serve": "node build/src/index.js",
-    "start": "npm run serve NODE_ENV=production",
-    "test": "NODE_ENV=test jest --verbose --runInBand --detectOpenHandles"
+    "start": "set NODE_ENV=production && npm run serve ",
+    "test": "set NODE_ENV=test && jest --verbose --runInBand --detectOpenHandles"
   },
   "author": "",
   "license": "ISC",
@@ -23,7 +23,7 @@
     "@types/express": "^4.17.17",
     "@types/jest": "^29.5.2",
     "@types/jsonwebtoken": "^9.0.2",
-    "@types/node": "^20.3.3",
+    "@types/node": "^20.4.0",
     "@types/supertest": "^2.0.12",
     "@types/uuid": "^9.0.2",
     "@types/validator": "^13.7.17",
@@ -33,8 +33,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.44.0",
     "jest": "^29.6.0",
-    "sequelize": "^6.32.1",
-    "sequelize-mock": "^0.10.2",
+    "prisma": "^4.16.2",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
@@ -42,12 +41,11 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "@prisma/client": "^4.16.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
-    "pg": "^8.11.1",
-    "sequelize-typescript": "^2.1.5",
     "uuid": "^9.0.0"
   }
 }

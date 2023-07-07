@@ -1,3 +1,4 @@
+/*
 import jwt from "jsonwebtoken";
 import express from "express";
 const router = express.Router();
@@ -37,4 +38,4 @@ router.post("/", async (req: TypedRequestBody<{ username: string, password: stri
     return null;
 });
 
-export default router;
+export default router;*/
