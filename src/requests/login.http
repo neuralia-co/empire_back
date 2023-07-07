@@ -3,7 +3,7 @@ POST http://localhost:3001/api/login
 Content-Type: application/json
 
 {
-  "username": "typeFan",
+  "username": "matthieu",
   "password": "motdepasse"
 }
 
@@ -26,6 +26,6 @@ Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
 {
-  "content":"A WELL TYPED NOTE !!!!"
+  "content":"my second note"
 }
 

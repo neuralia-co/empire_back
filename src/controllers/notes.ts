@@ -1,3 +1,4 @@
+/*
 import express, { Response } from "express";
 const router = express.Router();
 import { Note, User } from "../models";
@@ -12,7 +13,7 @@ router.post("/", tokenExtractor, async (req: AuthPostRequest, res: Response) => 
         }
         const imp: boolean = req.body.important === null || req.body.important === undefined ? false : req.body.important;
         // maybe add , userId: user.id here
-        const note = await Note.create({ important: imp, ...req.body, date: new Date() });
+        const note = await Note.create({ important: imp, ...req.body,userId: user.id, date: new Date() });
         res.json(note);
     } catch(error) {
         res.status(400).json({ error });
@@ -57,4 +58,4 @@ router.put("/:id", noteFinder, async (req: AuthPutRequest, res) => {
     }
 });
 
-export default router;
+export default router;*/
