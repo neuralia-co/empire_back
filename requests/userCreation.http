@@ -1,4 +1,4 @@
-### Get all users
+### Get all users not connected (shouldn't work)
 GET http://localhost:3001/users
 Content-Type: application/json
 
@@ -19,13 +19,4 @@ Content-Type: application/json
 {
   "email": "matthieu@gmail.com",
   "password": "aspirateur"
-}
-
-### wrong login
-POST http://localhost:3001/auth/signin
-Content-Type: application/json
-
-{
-  "email": "matthieu@gmail.com",
-  "password": "wrongPassword"
 }

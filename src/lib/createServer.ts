@@ -1,15 +1,15 @@
 import cors from "cors";
 import express from "express";
-//import invoicesRouter from "invoices/quotes.router";
-import usersRouter from "../routers/user";
-import authRouter from "../routers/auth";
-import { errorHandler } from "./middlewares";
+import invoicesRouter from "../invoices/router.invoices";
+import usersRouter from "../users/router.users";
+import authRouter from "../auth/router.auth";
+import { errorHandler, authorization } from "./middlewares";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-//app.use("/invoices", authorization, quotesRouter);
-app.use("/users", usersRouter);
+app.use("/invoices", authorization, invoicesRouter);
+app.use("/users",authorization, usersRouter);
 app.use("/auth", authRouter);
 app.use(errorHandler);
 

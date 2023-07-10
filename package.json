@@ -12,7 +12,9 @@
     "start": "set NODE_ENV=production && npm run serve ",
     "prepare": "husky install",
     "precommit": "npm run lint && npm test",
-    "prepush": "npm run lint"
+    "prepush": "npm run lint",
+    "test:unit": "vitest -c ./vitest.config.unit.ts",
+    "test:unit:ui": "vitest -c ./vitest.config.unit.ts --ui"
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +30,7 @@
     "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
+    "@vitest/ui": "^0.33.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.44.0",
     "husky": "^8.0.3",
