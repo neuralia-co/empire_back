@@ -1,5 +1,5 @@
-import { PORT } from "./utils/config";
-import app from "./app";
+import { PORT } from "./lib/config";
+import app from "./lib/createServer";
 
 const server = app.listen(PORT,  () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

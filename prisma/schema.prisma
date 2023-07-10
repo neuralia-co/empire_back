@@ -1,5 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
@@ -10,8 +8,22 @@ datasource db {
   url      = env("LOCAL_URI")
 }
 
+model Invoice {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String   @db.VarChar(255)
+  content   String?
+  url       String
+  processed Boolean  @default(false)
+  owner     User     @relation(fields: [ownerId], references: [id])
+  ownerId   Int
+}
+
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  name    String
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  name         String
+  invoices     Invoice[]
+  password     String
 }
