@@ -1,0 +1,39 @@
+### login
+POST http://localhost:3001/auth/signin
+Content-Type: application/json
+
+{
+  "email": "matthieu@gmail.com",
+  "password": "aspirateur"
+}
+
+> {%
+    client.global.set("auth_token", response.body.token);
+%}
+
+### Get all invoices from user
+GET http://localhost:3001/invoices/
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+### Create new invoice
+POST http://localhost:3001/invoices/
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "title": "decathlon_clothing.pdf",
+  "content": "bought a bunch of clothing to go climbing",
+  "url": "https://www.fichier-pdf.fr/2013/06/10/https-www-decathlon/preview-https-www-decathlon-1.jpg"
+}
+
+### Delete invoice
+DELETE http://localhost:3001/invoices/1
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "title": "decathlon_clothing.pdf",
+  "content": "bought a bunch of clothing to go climbing",
+  "url": "https://www.fichier-pdf.fr/2013/06/10/https-www-decathlon/preview-https-www-decathlon-1.jpg"
+}

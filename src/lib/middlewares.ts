@@ -1,7 +1,7 @@
 import { NextFunction, Response, Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
 import { AppError } from "./utility-classes";
-import { validateJWT } from "../services/auth";
+import { validateJWT } from "../auth/service.auth";
 import type { AnyZodObject } from "zod";
 import { ZodError } from "zod";
 
@@ -54,7 +54,7 @@ export const authorization = (
     }
 
     try {
-        request.decodedToken = { userId: validateJWT(token) };//<JwtPayload>jwt.verify(token, SECRET);
+        request.decodedToken = { id: validateJWT(token) };//<JwtPayload>jwt.verify(token, SECRET);
         next();
     } catch (e) {
         return next(new AppError("validation", "Invalid access token."));

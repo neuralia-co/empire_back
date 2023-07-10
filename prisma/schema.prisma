@@ -14,7 +14,7 @@ model Invoice {
   updatedAt DateTime @updatedAt
   title     String   @db.VarChar(255)
   content   String?
-  url       String
+  url       String?
   processed Boolean  @default(false)
   owner     User     @relation(fields: [ownerId], references: [id])
   ownerId   Int
