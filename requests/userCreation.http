@@ -1,0 +1,31 @@
+### Get all users
+GET http://localhost:3001/users
+Content-Type: application/json
+
+### Create User
+POST http://localhost:3001/auth/signup
+Content-Type: application/json
+
+{
+  "email": "matthieu@gmail.com",
+  "name": "Matt leCoder",
+  "password": "aspirateur"
+}
+
+### login
+POST http://localhost:3001/auth/signin
+Content-Type: application/json
+
+{
+  "email": "matthieu@gmail.com",
+  "password": "aspirateur"
+}
+
+### wrong login
+POST http://localhost:3001/auth/signin
+Content-Type: application/json
+
+{
+  "email": "matthieu@gmail.com",
+  "password": "wrongPassword"
+}
