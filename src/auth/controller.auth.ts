@@ -1,6 +1,5 @@
-import type { SigninSchema, SignupSchema } from "../schemas/auth";
-import * as AuthService from "../services/auth";
-import { findUserByEmail } from "../services/users";
+import type { SigninSchema, SignupSchema } from "./schema.auth";
+import * as AuthService from "./service.auth";
 import type { Request, RequestHandler } from "express";
 import { AppError } from "../lib/utility-classes";
 
@@ -15,7 +14,7 @@ export const signup: RequestHandler = async (
         password: req.body.password
     };
 
-    if (await findUserByEmail(userData.email)) {
+    if (await AuthService.findUserByEmail(userData.email)) {
         return next(
             new AppError("validation", "A user already exists with that email")
         );
@@ -38,7 +37,7 @@ export const signin: RequestHandler = async (
 ) => {
     const { email, password } = req.body;
 
-    const existing = await findUserByEmail(email);
+    const existing = await AuthService.findUserByEmail(email);
 
     if (!existing) {
         return next(new AppError("validation", "Account not found."));
