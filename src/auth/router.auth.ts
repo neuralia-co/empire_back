@@ -1,5 +1,5 @@
-import * as AuthController from "../controllers/auth";
-import { SigninSchema, SignupSchema } from "../schemas/auth";
+import * as AuthController from "./controller.auth";
+import { SigninSchema, SignupSchema } from "./schema.auth";
 import { Router } from "express";
 import { validate } from "../lib/middlewares";
 

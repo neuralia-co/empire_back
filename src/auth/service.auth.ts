@@ -3,6 +3,10 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import prisma from "../lib/prisma";
 
+export const findUserByEmail = async (email: string) => {
+    return prisma.user.findFirst({ where: { email } });
+};
+
 export const createUser = async (
     user: Omit<Prisma.UserCreateInput, "invoices">
 ) => {
