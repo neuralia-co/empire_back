@@ -17,7 +17,7 @@ vi.mock("lib/utility-classes", () => ({
     }
 }));
 
-describe("auth.controller", () => {
+describe("controller.auth", () => {
     let request: Request;
     let response: Response;
     const next = vi.fn();
@@ -38,7 +38,6 @@ describe("auth.controller", () => {
     });
 
     describe("signup", () => {
-
         it("should throw a validation error if a user already exists with username", async () => {
             vi.mocked(AuthService.findUserByEmail).mockResolvedValueOnce({
                 id: 1,
