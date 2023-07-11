@@ -6,7 +6,7 @@ import * as InvoicesServices from "./service.invoices";
 export const createInvoice: RequestHandler = async (
     req: Request<unknown, unknown, CreateInvoiceSchema>,
     res
-)  => {
+) => {
     const { title, content, url } = req.body;
 
     const invoice = await InvoicesServices.createInvoice(title,req.decodedToken.id,content, url);
@@ -77,6 +77,6 @@ export const getInvoiceById: RequestHandler<IdInvoiceSchema> = async (
         );
     }
 
-    res.json({ invoice });
+    res.json(invoice);
 
 };
