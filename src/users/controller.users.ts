@@ -1,7 +1,5 @@
-import express, { NextFunction, RequestHandler, Request, Response } from "express";
-const router = express.Router();
+import { NextFunction, RequestHandler, Request, Response } from "express";
 import prisma from "../lib/prisma";
-import * as UserService from "./service.users";
 import { OneUserSchema } from "./schema.users";
 import { AppError } from "../lib/utility-classes";
 
@@ -24,8 +22,14 @@ export const getOneUser: RequestHandler<OneUserSchema> = async (
     next: NextFunction
 ) => {
     const { id } = req.params;
-    const userId = parseInt(id);
-    const user = await UserService.getUserById(userId);
+    const user = await prisma.user.findFirst({
+        where: { id: parseInt(id) },
+        select: {
+            email: false,
+            name: true,
+            password: false,
+        }
+    });
 
     if (!user) {
         return next(new AppError("validation", "User not found."));
@@ -36,10 +40,22 @@ export const getOneUser: RequestHandler<OneUserSchema> = async (
 
 export const getMyUser: RequestHandler = async (
     req: Request<unknown, unknown>,
-    res: Response
+    res: Response,
+    next: NextFunction
 ) => {
-    const user = await UserService.getFullUserById(req.decodedToken.id);
+    const user = await prisma.user.findFirst({
+        where: { id: req.decodedToken.id },
+        select: {
+            email: true,
+            name: true,
+            password: false,
+        }
+    });
+
+    if (!user) {
+        return next(new AppError("validation", "The token used isn't linked to any user"));
+    }
+
     res.json(user);
 };
 
-export default router;

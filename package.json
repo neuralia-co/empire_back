@@ -12,7 +12,6 @@
     "start": "set NODE_ENV=production && npm run serve ",
     "prepare": "husky install",
     "precommit": "npm run lint && npm test",
-    "prepush": "npm run lint",
     "test:unit": "vitest -c ./vitest.config.unit.ts",
     "test:unit:ui": "vitest -c ./vitest.config.unit.ts --ui"
   },
