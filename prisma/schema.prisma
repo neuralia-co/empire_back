@@ -18,6 +18,11 @@ model Invoice {
   processed Boolean  @default(false)
   owner     User     @relation(fields: [ownerId], references: [id])
   ownerId   Int
+  // pretax value
+  // VAT
+  // remove processed
+  // date invoice
+  // automatic title
 }
 
 model User {

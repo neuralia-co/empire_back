@@ -27,7 +27,12 @@ export const generateJWT = (id: number) => {
         throw new Error("API Secret not defined. Unable to generate JWT.");
     }
 
-    return jwt.sign({ id }, process.env.API_SECRET, { expiresIn: 5*60*60 });
+    const expiry = 60*60; // in seconds
+
+    return {
+        val: jwt.sign({ id }, process.env.API_SECRET, { expiresIn: expiry }),
+        exp: Date.now() + (expiry-10)*1000
+    };
 };
 
 export const validateJWT = (token: string) => {
