@@ -8,7 +8,7 @@ Content-Type: application/json
 }
 
 > {%
-    client.global.set("auth_token", response.body.token);
+    client.global.set("auth_token", response.body.token.val);
 %}
 
 ### Get all invoices from user
@@ -22,9 +22,9 @@ Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
 {
-  "title": "decathlon_clothing.pdf",
-  "content": "bought a bunch of clothing to go climbing",
-  "url": "https://www.fichier-pdf.fr/2013/06/10/https-www-decathlon/preview-https-www-decathlon-1.jpg"
+  "title": "darty_equipement.pdf",
+  "content": "bought some furniture for the living room of the new appartment",
+  "url": "https://power80.files.wordpress.com/2012/07/facture.png"
 }
 
 ### Delete invoice

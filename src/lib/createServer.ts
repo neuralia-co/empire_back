@@ -11,8 +11,6 @@ app.use(express.json());
 app.use("/invoices", authorization, invoicesRouter);
 app.use("/users",authorization, usersRouter);
 app.use("/auth", authRouter);
-app.use(errorHandler);
-
 
 app.get("/ping", (_req, res) => {
     const date = new Date;
@@ -20,5 +18,11 @@ app.get("/ping", (_req, res) => {
     console.log(info);
     res.send(info);
 });
+
+
+
+app.use(errorHandler);
+
+
 
 export default app;

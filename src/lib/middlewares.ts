@@ -48,6 +48,8 @@ export const authorization = (
 
     const token = request.headers.authorization.split(" ")[1].trim();
 
+    //console.log(Date.now(),token);
+
     if (!token) {
         return next(new AppError("unauthorized", "Invalid access token."));
     }
@@ -56,6 +58,7 @@ export const authorization = (
         request.decodedToken = { id: validateJWT(token) };//<JwtPayload>jwt.verify(token, SECRET);
         next();
     } catch (e) {
+        //console.log(e);
         return next(new AppError("validation", "Invalid access token."));
     }
 };

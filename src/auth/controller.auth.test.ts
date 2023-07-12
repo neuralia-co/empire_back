@@ -64,7 +64,7 @@ describe("controller.auth", () => {
                 email: "matthieu@gmail.com",
                 name: "Matthieu Porte"
             });
-            vi.mocked(AuthService.generateJWT).mockReturnValueOnce("testtoken");
+            vi.mocked(AuthService.generateJWT).mockReturnValueOnce({ val:"testtoken",exp:99999999999999 });
             await AuthController.signup(request, response, next);
 
             expect(AuthService.createUser).toHaveBeenCalledWith(request.body);
@@ -77,7 +77,7 @@ describe("controller.auth", () => {
                 email: "matthieu@gmail.com",
                 name: "Matthieu Porte"
             });
-            vi.mocked(AuthService.generateJWT).mockReturnValueOnce("testtoken");
+            vi.mocked(AuthService.generateJWT).mockReturnValueOnce({ val:"testtoken",exp:99999999999999 });
             await AuthController.signup(request, response, next);
 
             expect(AuthService.generateJWT).toHaveBeenCalledWith(1);
@@ -90,7 +90,7 @@ describe("controller.auth", () => {
                 email: "matthieu@gmail.com",
                 name: "Matthieu Porte"
             });
-            vi.mocked(AuthService.generateJWT).mockReturnValueOnce("testtoken");
+            vi.mocked(AuthService.generateJWT).mockReturnValueOnce({ val:"testtoken",exp:99999999999999 });
             await AuthController.signup(request, response, next);
 
             expect(response.status).toHaveBeenCalledWith(200);
@@ -145,7 +145,7 @@ describe("controller.auth", () => {
                 password: "hashedpass"
             });
             vi.mocked(AuthService.comparePasswords).mockReturnValueOnce(true);
-            vi.mocked(AuthService.generateJWT).mockReturnValue("testtoken");
+            vi.mocked(AuthService.generateJWT).mockReturnValue({ val:"testtoken",exp:99999999999999 });
 
             await AuthController.signin(request, response, next);
 
@@ -160,7 +160,7 @@ describe("controller.auth", () => {
                 password: "hashedpass"
             });
             vi.mocked(AuthService.comparePasswords).mockReturnValueOnce(true);
-            vi.mocked(AuthService.generateJWT).mockReturnValue("testtoken");
+            vi.mocked(AuthService.generateJWT).mockReturnValue({ val:"testtoken",exp:99999999999999 });
 
             await AuthController.signin(request, response, next);
 
