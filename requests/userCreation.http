@@ -1,22 +1,29 @@
-### Get all users not connected (shouldn't work)
-GET http://localhost:3001/users
-Content-Type: application/json
-
 ### Create User
 POST http://localhost:3001/auth/signup
 Content-Type: application/json
 
 {
   "email": "matthieu@gmail.com",
-  "name": "Matt leCoder",
+  "name": "Matthieu Porte",
   "password": "aspirateur"
 }
 
-### login
-POST http://localhost:3001/auth/signin
+### Create User
+POST http://localhost:3001/auth/signup
 Content-Type: application/json
 
 {
-  "email": "matthieu@gmail.com",
-  "password": "aspirateur"
+  "email": "vincent@gmail.com",
+  "name": "Vincent Porte",
+  "password": "lisbonne"
+}
+
+### Create User
+POST http://localhost:3001/auth/signup
+Content-Type: application/json
+
+{
+  "email": "jordan@gmail.com",
+  "name": "Jordan Porte",
+  "password": "minecraft"
 }
