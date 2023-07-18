@@ -8,5 +8,6 @@ const router = Router();
 router.post("/", validate(CreateInvoiceSchema), InvoicesController.createInvoice);
 router.delete("/:id", validate(IdInvoiceSchema), InvoicesController.deleteInvoice);
 router.get("/",InvoicesController.getAllInvoicesFromUser);
+router.get("/:id", InvoicesController.getInvoiceById);
 
 export default router;

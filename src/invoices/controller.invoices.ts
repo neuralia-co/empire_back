@@ -18,15 +18,8 @@ export const createInvoice: RequestHandler = async (
 
 };
 
-function delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
-}
-
 export const getAllInvoicesFromUser: RequestHandler = async (req,res) => {
     const invoices = await InvoicesServices.getAllInvoicesFromUser(req.decodedToken.id);
-
-    await delay(500);
-
     res.json( invoices );
 };
 
