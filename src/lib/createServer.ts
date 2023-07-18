@@ -3,6 +3,7 @@ import express from "express";
 import invoicesRouter from "../invoices/router.invoices";
 import usersRouter from "../users/router.users";
 import authRouter from "../auth/router.auth";
+import companyRouter from "../companies/router.companies";
 import { errorHandler, authorization } from "./middlewares";
 
 const app = express();
@@ -10,6 +11,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/invoices", authorization, invoicesRouter);
 app.use("/users",authorization, usersRouter);
+app.use("/companies",authorization, companyRouter);
 app.use("/auth", authRouter);
 
 app.get("/ping", (_req, res) => {
