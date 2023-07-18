@@ -7,9 +7,9 @@ export const createInvoice: RequestHandler = async (
     req: Request<unknown, unknown, CreateInvoiceSchema>,
     res
 ) => {
-    const { title, content, url } = req.body;
+    const { title, content, url, pretaxValue, VAT } = req.body;
 
-    const invoice = await InvoicesServices.createInvoice(title,req.decodedToken.id,content, url);
+    const invoice = await InvoicesServices.createInvoice(title, pretaxValue, VAT,req.decodedToken.id,content, url);
 
     res.status(200).json({
         message: "Invoice successfully uploaded.",
@@ -18,12 +18,14 @@ export const createInvoice: RequestHandler = async (
 
 };
 
-export const getAllInvoicesFromUser: RequestHandler = async (req,res) => {
-    const invoices = await InvoicesServices.getAllInvoicesFromUser(req.decodedToken.id);
+export const getAllInvoicesFromCompany: RequestHandler = async (req,res) => {
+    const { id } = req.params;
+    const companyId = parseInt(id);
+    const invoices = await InvoicesServices.getAllInvoicesFromCompany(companyId);
     res.json( invoices );
 };
 
-export const deleteInvoice: RequestHandler<IdInvoiceSchema> = async (
+/*export const deleteInvoice: RequestHandler<IdInvoiceSchema> = async (
     req: Request<IdInvoiceSchema>,
     res: Response,
     next: NextFunction
@@ -52,7 +54,7 @@ export const deleteInvoice: RequestHandler<IdInvoiceSchema> = async (
         invoice: deleted
     });
 
-};
+};*/
 
 export const getInvoiceById: RequestHandler<IdInvoiceSchema> = async (
     req: Request<IdInvoiceSchema>,
@@ -67,14 +69,14 @@ export const getInvoiceById: RequestHandler<IdInvoiceSchema> = async (
         return next(new AppError("validation", "Invoice not found."));
     }
 
-    if (!(invoice.ownerId === req.decodedToken.id)) {
+    /*if (!(invoice.ownerId === req.decodedToken.id)) {
         return next(
             new AppError(
                 "unauthorized",
                 "You are not authorized to see this invoice."
             )
         );
-    }
+    }*/
 
     res.json(invoice);
 

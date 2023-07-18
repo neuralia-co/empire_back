@@ -5,8 +5,10 @@ import { z } from "zod";
 export const CreateInvoiceSchema = z.object({
     body: z.object({
         title: z.string(),
+        pretaxValue: z.number(),
+        VAT: z.number(),
         content: z.string().optional(),
-        url: z.string().optional(),
+        url: z.string(),
     })
 });
 export type CreateInvoiceSchema = z.infer<typeof CreateInvoiceSchema>["body"];

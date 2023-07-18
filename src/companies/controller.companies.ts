@@ -42,15 +42,22 @@ export const getOneCompany: RequestHandler<OneCompanySchema> = async (
     next: NextFunction
 ) => {
     const { id } = req.params;
+    const companyId = parseInt(id);
+    console.log("companyId: " + companyId);
     const company = await prisma.company.findFirst({
-        where: { id: parseInt(id) }
+        where: { id: companyId },
+    });
+
+    const invoices = await prisma.invoicesOnCompanies.findMany({
+        where: { company: { id: companyId } },
+        include: { invoice: true,  },
     });
 
     if (!company) {
         return next(new AppError("validation", "Company not found."));
     }
 
-    res.json(company);
+    res.json({ company,invoices });
 };
 
 export const getMyCompanies: RequestHandler = async (
@@ -59,8 +66,10 @@ export const getMyCompanies: RequestHandler = async (
     next: NextFunction
 ) => {
     const companies = await prisma.usersOnCompanies.findMany({
-        where: { user: { id: req.decodedToken.id } }
+        where: { user: { id: req.decodedToken.id } },
+        include: { company: true },
     });
+
 
     if (!companies) {
         return next(new AppError("validation", "The user isn't linked to any company or the other doesn't exist"));
