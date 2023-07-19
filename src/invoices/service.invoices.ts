@@ -6,9 +6,13 @@ export const createInvoice = async (
     pretaxValue: number,
     VAT: number,
     content: string | undefined,
-    url: string
+    url: string,
+    idFrom: number,
+    idTo: number,
+    debit: boolean,
+    date: string
 ) => {
-    return prisma.invoice.create({
+    const newInvoice = await prisma.invoice.create({
         data: {
             title,
             createdBy: {
@@ -20,8 +24,26 @@ export const createInvoice = async (
             url,
             pretaxValue,
             VAT,
+            date: new Date (Date.parse(date))
         }
     });
+
+    await prisma.invoicesOnCompanies.create({
+        data: {
+            companyId: idFrom,
+            invoiceId: newInvoice.id,
+            debit: debit
+        },
+    });
+
+    await prisma.invoicesOnCompanies.create({
+        data: {
+            companyId: idTo,
+            invoiceId: newInvoice.id,
+            debit: !debit
+        },
+    });
+
 };
 
 export const getInvoiceById = async (id: number) => {

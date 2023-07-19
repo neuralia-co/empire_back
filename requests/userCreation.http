@@ -24,6 +24,6 @@ Content-Type: application/json
 
 {
   "email": "jordan@gmail.com",
-  "name": "Jordan Porte",
+  "name": "Jordan Baumard",
   "password": "minecraft"
 }

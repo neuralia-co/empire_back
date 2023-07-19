@@ -40,6 +40,7 @@ const loadInvoices = async () => {
             url:"https://www.fichier-pdf.fr/2013/06/10/https-www-decathlon/preview-https-www-decathlon-1.jpg",
             VAT:0.2,
             pretaxValue:315.25,
+            date: new Date
         },
         {
             title: "New_Computer_10_08_22.pdf",
@@ -48,6 +49,7 @@ const loadInvoices = async () => {
             url:"https://opendocs.com/wp-content/uploads/Computer-Sales-Invoice.png",
             VAT:0.2,
             pretaxValue:1608.75,
+            date: new Date
         },
         {
             title: "Equipement_Decathlon_12_08_22.pdf",
@@ -56,6 +58,7 @@ const loadInvoices = async () => {
             url:"https://www.fichier-pdf.fr/2013/06/10/https-www-decathlon/preview-https-www-decathlon-1.jpg",
             VAT:0.2,
             pretaxValue:315.25,
+            date: new Date
         },
     ];
 
