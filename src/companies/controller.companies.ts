@@ -32,6 +32,7 @@ export const create: RequestHandler = async (
 };
 
 export const getAllCompanies: RequestHandler = async (_req,res) => {
+    console.log("getAllCompanies");
     const companies = await prisma.company.findMany();
     res.json(companies);
 };
@@ -41,6 +42,8 @@ export const getOneCompany: RequestHandler<OneCompanySchema> = async (
     res: Response,
     next: NextFunction
 ) => {
+    console.log("Hello darkness my old friend, I've come to talk with you again");
+    console.log(req.params);
     const { id } = req.params;
     const companyId = parseInt(id);
     console.log("companyId: " + companyId);
@@ -57,7 +60,10 @@ export const getOneCompany: RequestHandler<OneCompanySchema> = async (
         return next(new AppError("validation", "Company not found."));
     }
 
-    res.json({ company,invoices });
+    const invoicesToReturn = invoices || [];
+    console.log("invoices:",invoicesToReturn);
+
+    res.json({ company,invoices: invoicesToReturn });
 };
 
 export const getMyCompanies: RequestHandler = async (
@@ -65,6 +71,7 @@ export const getMyCompanies: RequestHandler = async (
     res: Response,
     next: NextFunction
 ) => {
+    console.log("geyMyCompanies");
     const companies = await prisma.usersOnCompanies.findMany({
         where: { user: { id: req.decodedToken.id } },
         include: { company: true },

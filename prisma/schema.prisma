@@ -37,6 +37,7 @@ model Invoice {
   updatedAt        DateTime?   @updatedAt
   updatedBy        User?       @relation("updatedInvoices",fields: [updatedById], references: [id])
   updatedById      Int?
+  date             DateTime
   title            String      @db.VarChar(255)
   content          String?
   url              String

@@ -7,9 +7,10 @@ export const createInvoice: RequestHandler = async (
     req: Request<unknown, unknown, CreateInvoiceSchema>,
     res
 ) => {
-    const { title, content, url, pretaxValue, VAT } = req.body;
+    console.log(req.body);
+    const { title, content, url, pretaxValue, VAT,idFrom,idTo,debit,date } = req.body;
 
-    const invoice = await InvoicesServices.createInvoice(title, pretaxValue, VAT,req.decodedToken.id,content, url);
+    const invoice = await InvoicesServices.createInvoice(title,req.decodedToken.id, Number(pretaxValue), Number(VAT),content, url,idFrom,idTo,debit,date);
 
     res.status(200).json({
         message: "Invoice successfully uploaded.",

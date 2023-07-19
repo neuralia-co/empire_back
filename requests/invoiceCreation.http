@@ -11,11 +11,6 @@ Content-Type: application/json
     client.global.set("auth_token", response.body.token.val);
 %}
 
-### Get all invoices from user
-GET http://localhost:3001/invoices/
-Content-Type: application/json
-Authorization: Bearer {{auth_token}}
-
 ### Create new invoice
 POST http://localhost:3001/invoices/
 Content-Type: application/json
@@ -24,16 +19,20 @@ Authorization: Bearer {{auth_token}}
 {
   "title": "darty_equipement.pdf",
   "content": "bought some furniture for the living room of the new appartment",
-  "url": "https://power80.files.wordpress.com/2012/07/facture.png"
+  "url": "https://power80.files.wordpress.com/2012/07/facture.png",
+  "pretaxValue": 316,
+  "VAT": 0.2,
+  "idFrom": 1,
+  "idTo": 4,
+  "debit": true
 }
 
-### Delete invoice
-DELETE http://localhost:3001/invoices/1
+### Get company 1
+GET http://localhost:3001/companies/1
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
-{
-  "title": "decathlon_clothing.pdf",
-  "content": "bought a bunch of clothing to go climbing",
-  "url": "https://www.fichier-pdf.fr/2013/06/10/https-www-decathlon/preview-https-www-decathlon-1.jpg"
-}
+### Get company 4
+GET http://localhost:3001/companies/4
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
