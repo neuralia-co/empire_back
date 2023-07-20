@@ -47,8 +47,9 @@ export const createInvoice = async (
 };
 
 export const getInvoiceById = async (id: number) => {
-    return prisma.invoice.findFirst({
-        where: { id }
+    return prisma.invoicesOnCompanies.findMany({
+        where: { invoice: { id: id } },
+        include: { invoice: true, company:true },
     });
 };
 
