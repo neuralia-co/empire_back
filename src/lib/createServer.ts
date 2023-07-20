@@ -22,7 +22,6 @@ app.get("/ping", (_req, res) => {
 });
 
 
-
 app.use(errorHandler);
 
 

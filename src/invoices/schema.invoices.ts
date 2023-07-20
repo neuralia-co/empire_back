@@ -12,7 +12,7 @@ export const CreateInvoiceSchema = z.object({
         idFrom: z.number(),
         idTo: z.number(),
         debit: z.boolean(),
-        date:z.string()
+        date: z.string()
     })
 });
 export type CreateInvoiceSchema = z.infer<typeof CreateInvoiceSchema>["body"];
