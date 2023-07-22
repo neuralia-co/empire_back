@@ -35,4 +35,4 @@ jobs:
           DATABASE_URL: postgres://postgres:password@localhost:5432/mydatabase
 
       - name: Run tests
-        run: npm test
+        run: npm run test:unit
