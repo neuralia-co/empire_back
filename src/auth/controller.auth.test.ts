@@ -101,7 +101,10 @@ describe("controller.auth", () => {
                     email: "matthieu@gmail.com",
                     name: "Matthieu Porte"
                 },
-                token: "testtoken"
+                token: {
+                    val:"testtoken",
+                    exp: 99999999999999
+                }
             });
         });
     });
@@ -172,7 +175,10 @@ describe("controller.auth", () => {
                     email: "matthieu@gmail.com",
                     id: 1
                 },
-                token: "testtoken"
+                token: {
+                    val:"testtoken",
+                    exp: 99999999999999
+                }
             });
         });
     });

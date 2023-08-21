@@ -74,7 +74,7 @@ describe("auth.service", () => {
             AuthService.generateJWT(1);
             expect(jwt.sign).toHaveBeenCalled();
             expect(jwt.sign).toHaveBeenCalledWith({ id: 1 }, "secret", {
-                expiresIn: 5*60*60
+                expiresIn: 60*60
             });
         });
 
