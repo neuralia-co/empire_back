@@ -14,10 +14,10 @@ jobs:
         uses: actions/setup-node@v3
       - name: Install dependencies
         run: npm install
-      - name: Run tests
-        run: npm run test:unit
       - name: build
         run: npm run build
+      - name: Run tests
+        run: npm run test:unit
       - name: Apply all pending migrations to the database
         run: npx prisma migrate deploy
         env:
