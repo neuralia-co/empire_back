@@ -1,3 +1,11 @@
+
+import {  describe, expect, it } from "vitest";
+
+describe("prop tests", () => {
+    it("1+1", () => {
+        expect(1+1).toBe(2);
+    });
+});
 /*
 import * as InvoicesController from "./controller.invoices";
 import * as InvoicesService from "./service.invoices";
