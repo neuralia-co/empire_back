@@ -2,6 +2,7 @@ import { RequestHandler, NextFunction,Request,Response } from "express";
 import type { CreateInvoiceSchema, IdInvoiceSchema } from "./schema.invoices";
 import { AppError } from "../lib/utility-classes";
 import * as InvoicesServices from "./service.invoices";
+import { Prisma } from "@prisma/client";
 
 export const createInvoice: RequestHandler = async (
     req: Request<unknown, unknown, CreateInvoiceSchema>,
@@ -10,13 +11,28 @@ export const createInvoice: RequestHandler = async (
     console.log(req.body);
     const { title, content, url, pretaxValue, VAT,idFrom,idTo,debit,date } = req.body;
 
-    const invoice = await InvoicesServices.createInvoice(title,req.decodedToken.id, Number(pretaxValue), Number(VAT),content, url,idFrom,idTo,debit,date);
+    try {
+        const invoice = await InvoicesServices.createInvoice(title,req.decodedToken.id, Number(pretaxValue), Number(VAT),content, url,idFrom,idTo,debit,date);
 
-    res.status(200).json({
-        message: "Invoice successfully uploaded.",
-        invoice
-    });
+        console.log("DONE WITH CREATING THE INVOICWE");
 
+        res.status(200).json({
+            message: "Invoice successfully uploaded!",
+            invoice
+        });
+
+    } catch (e) {
+
+        console.log("ERRROR SA MEEERE",e);
+        if (e instanceof Prisma.PrismaClientValidationError) {
+            console.log(e.message);
+        }
+        res.status(400).json({
+            message: "invoice couldn't be created"
+        });
+        //throw e;
+    }
+    console.log("done with creating");
 };
 
 export const getAllInvoicesFromCompany: RequestHandler = async (req,res) => {
