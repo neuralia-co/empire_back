@@ -12,38 +12,41 @@ export const createInvoice = async (
     debit: boolean,
     date: string
 ) => {
-    const newInvoice = await prisma.invoice.create({
-        data: {
-            title,
-            createdBy: {
-                connect: {
-                    id: ownerId,
-                }
+    if (Number.isNaN(pretaxValue)|| Number.isNaN(pretaxValue)){
+        throw new Error("pretax or VAT is NaN");
+    } else {
+        const newInvoice = await prisma.invoice.create({
+            data: {
+                title,
+                createdBy: {
+                    connect: {
+                        id: ownerId,
+                    }
+                },
+                content,
+                url,
+                pretaxValue,
+                VAT,
+                date: new Date(Date.parse(date))
+            }
+        });
+
+        await prisma.invoicesOnCompanies.create({
+            data: {
+                companyId: idFrom,
+                invoiceId: newInvoice.id,
+                debit: debit
             },
-            content,
-            url,
-            pretaxValue,
-            VAT,
-            date: new Date (Date.parse(date))
-        }
-    });
+        });
 
-    await prisma.invoicesOnCompanies.create({
-        data: {
-            companyId: idFrom,
-            invoiceId: newInvoice.id,
-            debit: debit
-        },
-    });
-
-    await prisma.invoicesOnCompanies.create({
-        data: {
-            companyId: idTo,
-            invoiceId: newInvoice.id,
-            debit: !debit
-        },
-    });
-
+        await prisma.invoicesOnCompanies.create({
+            data: {
+                companyId: idTo,
+                invoiceId: newInvoice.id,
+                debit: !debit
+            },
+        });
+    }
 };
 
 export const getInvoiceById = async (id: number) => {
