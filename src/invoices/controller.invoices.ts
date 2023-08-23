@@ -14,16 +14,12 @@ export const createInvoice: RequestHandler = async (
     try {
         const invoice = await InvoicesServices.createInvoice(title,req.decodedToken.id, Number(pretaxValue), Number(VAT),content, url,idFrom,idTo,debit,date);
 
-        console.log("DONE WITH CREATING THE INVOICWE");
-
         res.status(200).json({
             message: "Invoice successfully uploaded!",
             invoice
         });
 
     } catch (e) {
-
-        console.log("ERRROR SA MEEERE",e);
         if (e instanceof Prisma.PrismaClientValidationError) {
             console.log(e.message);
         }
@@ -32,7 +28,6 @@ export const createInvoice: RequestHandler = async (
         });
         //throw e;
     }
-    console.log("done with creating");
 };
 
 export const getAllInvoicesFromCompany: RequestHandler = async (req,res) => {
