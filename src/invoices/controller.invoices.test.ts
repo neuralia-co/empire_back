@@ -11,8 +11,9 @@ describe("prop tests", () => {
 import * as InvoicesController from "./controller.invoices";
 import * as InvoicesService from "./service.invoices";
 import type { Request, Response } from "express";
-import { AppError } from "../lib/utility-classes";*/
-import { /*beforeEach,*/ describe, expect, it, vi } from "vitest";
+import { AppError } from "../lib/utility-classes";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+*/
 
 vi.mock("invoices/service.invoices", () => ({
     createInvoice: vi.fn(),
