@@ -64,6 +64,7 @@ model InvoicesOnCompanies {
   companyId  Int
   assignedAt DateTime    @default(now())
   debit      Boolean
+  notes      String?
 
   @@id([invoiceId, companyId])
 
