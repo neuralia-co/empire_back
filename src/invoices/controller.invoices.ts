@@ -1,5 +1,5 @@
 import { RequestHandler, NextFunction,Request,Response } from "express";
-import type { CreateInvoiceSchema, IdInvoiceSchema } from "./schema.invoices";
+import type { CreateInvoiceSchema, IdInvoiceSchema, UpdateInvoiceSchema } from "./schema.invoices";
 import { AppError } from "../lib/utility-classes";
 import * as InvoicesServices from "./service.invoices";
 import { Prisma } from "@prisma/client";
@@ -92,4 +92,30 @@ export const getInvoiceById: RequestHandler<IdInvoiceSchema> = async (
 
     res.json(invoice);
 
+};
+
+export const updateInvoiceById: RequestHandler<UpdateInvoiceSchema> = async (
+    req: Request<UpdateInvoiceSchema>,
+    res: Response,
+    next: NextFunction
+) => {
+
+    const { title, url, pretaxValue, VAT,date,id } = req.body;
+    const invoiceId = parseInt(id);
+    const invoice = await InvoicesServices.updateInvoice(invoiceId,title,pretaxValue,VAT,url,date);
+
+    if (!invoice) {
+        return next(new AppError("validation", "Invoice not found."));
+    }
+
+    /*if (!(invoice.ownerId === req.decodedToken.id)) {
+        return next(
+            new AppError(
+                "unauthorized",
+                "You are not authorized to see this invoice."
+            )
+        );
+    }*/
+
+    res.json(invoice);
 };

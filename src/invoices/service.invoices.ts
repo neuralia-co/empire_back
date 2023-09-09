@@ -63,6 +63,26 @@ export const getAllInvoicesFromCompany = async (id: number) => {
     });
 };
 
+export const updateInvoice = async (
+    id: number,
+    title: string,
+    pretaxValue: number,
+    VAT: number,
+    url: string,
+    date: string
+) => {
+    return prisma.invoice.update({
+        where: { id: id },
+        data: {
+            title: title,
+            pretaxValue: pretaxValue,
+            VAT: VAT,
+            url: url,
+            date: date
+        },
+    });
+};
+
 export const deleteInvoice = async (id: number) => {
     return prisma.invoice.delete({
         where: { id }
