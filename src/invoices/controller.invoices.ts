@@ -37,7 +37,7 @@ export const getAllInvoicesFromCompany: RequestHandler = async (req,res) => {
     res.json( invoices );
 };
 
-/*export const deleteInvoice: RequestHandler<IdInvoiceSchema> = async (
+export const deleteInvoice: RequestHandler<IdInvoiceSchema> = async (
     req: Request<IdInvoiceSchema>,
     res: Response,
     next: NextFunction
@@ -50,7 +50,7 @@ export const getAllInvoicesFromCompany: RequestHandler = async (req,res) => {
         return next(new AppError("validation", "Invoice not found."));
     }
 
-    if (!(invoice.ownerId === req.decodedToken.id)) {
+    if (!(invoice.createdById === req.decodedToken.id)) {
         return next(
             new AppError(
                 "unauthorized",
@@ -66,7 +66,7 @@ export const getAllInvoicesFromCompany: RequestHandler = async (req,res) => {
         invoice: deleted
     });
 
-};*/
+};
 
 export const getInvoiceById: RequestHandler<IdInvoiceSchema> = async (
     req: Request<IdInvoiceSchema>,
@@ -81,7 +81,7 @@ export const getInvoiceById: RequestHandler<IdInvoiceSchema> = async (
         return next(new AppError("validation", "Invoice not found."));
     }
 
-    /*if (!(invoice.ownerId === req.decodedToken.id)) {
+    /*if (!(invoice.createdById === req.decodedToken.id)) {
         return next(
             new AppError(
                 "unauthorized",
@@ -99,23 +99,27 @@ export const updateInvoiceById: RequestHandler<UpdateInvoiceSchema> = async (
     res: Response,
     next: NextFunction
 ) => {
-
     const { title, url, pretaxValue, VAT,date,id } = req.body;
     const invoiceId = parseInt(id);
-    const invoice = await InvoicesServices.updateInvoice(invoiceId,title,pretaxValue,VAT,url,date);
+    const invoice = await InvoicesServices.getInvoiceById(invoiceId);
 
     if (!invoice) {
         return next(new AppError("validation", "Invoice not found."));
     }
 
-    /*if (!(invoice.ownerId === req.decodedToken.id)) {
+    if (!(invoice.createdById === req.decodedToken.id)) {
         return next(
             new AppError(
                 "unauthorized",
-                "You are not authorized to see this invoice."
+                "You are not authorized to delete this invoice."
             )
         );
-    }*/
+    }
 
-    res.json(invoice);
+    const updated = await InvoicesServices.updateInvoice(invoiceId,title,pretaxValue,VAT,url,date);
+
+    res.status(200).json({
+        message: "Invoice successfully updated.",
+        invoice: updated
+    });
 };
