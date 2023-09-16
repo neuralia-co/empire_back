@@ -46,6 +46,8 @@ export const createInvoice = async (
                 debit: !debit
             },
         });
+
+        return newInvoice;
     }
 };
 
@@ -78,7 +80,7 @@ export const updateInvoice = async (
             pretaxValue: pretaxValue,
             VAT: VAT,
             url: url,
-            date: date
+            date: new Date(Date.parse(date))
         },
     });
 };

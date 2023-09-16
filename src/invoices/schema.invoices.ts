@@ -26,7 +26,6 @@ export const UpdateInvoiceSchema = z.object({
         pretaxValue: z.string(),
         VAT: z.string(),
         url: z.string(),
-        debit: z.boolean(),
         date: z.string()
     })
 });

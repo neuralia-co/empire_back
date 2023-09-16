@@ -14,6 +14,8 @@ export const createInvoice: RequestHandler = async (
     try {
         const invoice = await InvoicesServices.createInvoice(title,req.decodedToken.id, Number(pretaxValue), Number(VAT),content, url,idFrom,idTo,debit,date);
 
+        console.log("newly created invoice : " + JSON.stringify(invoice));
+
         res.status(200).json({
             message: "Invoice successfully uploaded!",
             invoice
@@ -23,6 +25,7 @@ export const createInvoice: RequestHandler = async (
         if (e instanceof Prisma.PrismaClientValidationError) {
             console.log(e.message);
         }
+        console.log("Erreur lors de la creation de la facture : \n",e);
         res.status(400).json({
             message: "invoice couldn't be created"
         });
@@ -37,7 +40,7 @@ export const getAllInvoicesFromCompany: RequestHandler = async (req,res) => {
     res.json( invoices );
 };
 
-export const deleteInvoice: RequestHandler<IdInvoiceSchema> = async (
+/*export const deleteInvoice: RequestHandler<IdInvoiceSchema> = async (
     req: Request<IdInvoiceSchema>,
     res: Response,
     next: NextFunction
@@ -66,7 +69,7 @@ export const deleteInvoice: RequestHandler<IdInvoiceSchema> = async (
         invoice: deleted
     });
 
-};
+};*/
 
 export const getInvoiceById: RequestHandler<IdInvoiceSchema> = async (
     req: Request<IdInvoiceSchema>,
@@ -76,6 +79,8 @@ export const getInvoiceById: RequestHandler<IdInvoiceSchema> = async (
     const { id } = req.params;
     const invoiceId = parseInt(id);
     const invoice = await InvoicesServices.getInvoiceById(invoiceId);
+
+    console.log("Facture n" + id + " :\n" + JSON.stringify(invoice));
 
     if (!invoice) {
         return next(new AppError("validation", "Invoice not found."));
@@ -103,23 +108,39 @@ export const updateInvoiceById: RequestHandler<UpdateInvoiceSchema> = async (
     const invoiceId = parseInt(id);
     const invoice = await InvoicesServices.getInvoiceById(invoiceId);
 
+    console.log("Updated invoice : \n" + JSON.stringify(invoice));
+
     if (!invoice) {
         return next(new AppError("validation", "Invoice not found."));
     }
 
-    if (!(invoice.createdById === req.decodedToken.id)) {
+    /*if (!(invoice.invoice.createdById === req.decodedToken.id)) {
         return next(
             new AppError(
                 "unauthorized",
                 "You are not authorized to delete this invoice."
             )
         );
+    }*/
+
+    try {
+        const updated = await InvoicesServices.updateInvoice(invoiceId,title,Number(pretaxValue),Number(VAT),url,date);
+
+        console.log("recently updated invoice : " + JSON.stringify(updated));
+
+        res.status(200).json({
+            message: "Invoice successfully updated.",
+            invoice: updated
+        });
+
+    } catch (e) {
+        if (e instanceof Prisma.PrismaClientValidationError) {
+            console.log(e.message);
+        }
+        console.log("Erreur lors de l'update de la facture : \n",e);
+        res.status(400).json({
+            message: "invoice couldn't be updated"
+        });
+        //throw e;
     }
-
-    const updated = await InvoicesServices.updateInvoice(invoiceId,title,pretaxValue,VAT,url,date);
-
-    res.status(200).json({
-        message: "Invoice successfully updated.",
-        invoice: updated
-    });
 };

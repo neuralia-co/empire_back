@@ -1,0 +1,46 @@
+### login
+POST http://localhost:3001/auth/signin
+Content-Type: application/json
+
+{
+  "email": "matthieu@gmail.com",
+  "password": "aspirateur"
+}
+
+> {%
+    client.global.set("auth_token", response.body.token.val);
+%}
+
+### Company creation
+POST http://localhost:3001/companies/create
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "name": "neuralia.co",
+  "color": "4287f5",
+  "siren": "0000001"
+}
+
+### Company creation
+POST http://localhost:3001/companies/create
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "name": "Vermeil Developpement",
+  "color": "4287f5",
+  "siren": "0000002"
+}
+
+
+
+### Get company 1
+GET http://localhost:3001/companies/1
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+### Get company 2
+GET http://localhost:3001/companies/2
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
