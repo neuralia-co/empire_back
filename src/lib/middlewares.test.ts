@@ -114,6 +114,7 @@ describe("middlewares", () => {
     describe("errorHandler", () => {
         let request: Request;
         let response: Response;
+        const next = vi.fn();
 
         beforeEach(() => {
             vi.restoreAllMocks();
@@ -126,13 +127,13 @@ describe("middlewares", () => {
 
         it("should return a 500 status code when given an error with no status code", () => {
             const error = new Error("test");
-            errorHandler(error, request, response);
+            errorHandler(error, request, response,next);
             expect(response.status).toHaveBeenCalledWith(500);
         });
 
         it("should return a static error message when an unhandled error is thrown", () => {
             const error = new Error("test");
-            errorHandler(error, request, response);
+            errorHandler(error, request, response,next);
             expect(response.json).toHaveBeenCalledWith({
                 message: "Oops! Something wonky happened..."
             });
@@ -140,7 +141,7 @@ describe("middlewares", () => {
 
         it("should return an error with the provided statusCode", () => {
             const error = new AppError("server", "server-error");
-            errorHandler(error, request, response);
+            errorHandler(error, request, response,next);
             expect(response.status).toHaveBeenCalledWith(500);
         });
     });
