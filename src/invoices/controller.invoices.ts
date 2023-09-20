@@ -86,15 +86,6 @@ export const getInvoiceById: RequestHandler<IdInvoiceSchema> = async (
         return next(new AppError("validation", "Invoice not found."));
     }
 
-    /*if (!(invoice.createdById === req.decodedToken.id)) {
-        return next(
-            new AppError(
-                "unauthorized",
-                "You are not authorized to see this invoice."
-            )
-        );
-    }*/
-
     res.json(invoice);
 
 };

@@ -1,184 +1,79 @@
-
-import {  describe, expect, it, vi } from "vitest";
-
-describe("prop tests", () => {
-    it("1+1", () => {
-        expect(1+1).toBe(2);
-    });
-});
-
-/*
-import * as InvoicesController from "./controller.invoices";
+/*import * as InvoicesController from "./controller.invoices";
 import * as InvoicesService from "./service.invoices";
 import type { Request, Response } from "express";
-import { AppError } from "../lib/utility-classes";
-import { beforeEach, describe, expect, it, vi } from "vitest";
-*/
+import { beforeEach, describe, expect, it, vi } from "vitest";*/
 
-vi.mock("invoices/service.invoices", () => ({
+/*import { afterAll, afterEach, beforeAll } from "vitest";
+import prisma from "../lib/__mocks__/prisma";
+import { z } from "zod";
+import * as AuthService from "../auth/service.auth";
+import * as AuthController from "../auth/controller.auth";
+import { createInvoice } from "./controller.invoices";*/
+
+/*vi.mock("../lib/prisma");
+
+vi.mock("./service.invoices", () => ({
     createInvoice: vi.fn(),
-    deleteInvoice: vi.fn(),
-    getAllInvoicesFromUser: vi.fn(),
-    getInvoiceById: vi.fn()
+    getInvoiceById: vi.fn(),
+    getAllInvoicesFromCompany: vi.fn(),
+    updateInvoice: vi.fn()
 }));
 
-vi.mock("lib/utility-classes", () => ({
-    AppError: class {
-        constructor(public type: string, public message: string) {}
-    }
-}));
-
-describe("blank test", () => {
-    it("should pass 1 === 1", () => {
-        expect(1).toStrictEqual(1);
-    });
-});
-
-/*
-describe("controller.invoices", () => {
-    let request: Request<any, any, any, any>;
+// create invoice
+describe("invoice creation", () => {
+    let request: Request;
     let response: Response;
     const next = vi.fn();
 
-    const date = new Date();
-    const invoices = [
-        {
-            id: 1,
-            title: "testInvoice",
-            content: "testdescription",
-            url: "unittest.com",
-            createdAt: date,
-            updatedAt: date,
-            ownerId: 1,
-            processed: false
-        },
-        {
-            id: 2,
-            title: "testInvoice2",
-            content: "testdescription2",
-            url: "unittest.com",
-            createdAt: date,
-            updatedAt: date,
-            ownerId: 2,
-            processed: false
-        },
-    ];
-
     beforeEach(() => {
         vi.resetAllMocks();
-        response = {
+        /!*response = {
             status: vi.fn().mockReturnThis(),
             json: vi.fn()
-        } as unknown as Response;
-        request = {} as Request;
-        request.decodedToken = { id: 1 };
-    });
-
-    describe("createInvoice",() => {
-        it("should create an invoice when the values passed are correct", async() => {
-            request.body = {
-                title: "testInvoice",
-                content: "testdescription",
-                url: "unittest.com"
-            };
-
-            vi.mocked(InvoicesService.createInvoice).mockResolvedValueOnce(invoices[0]);
-            await InvoicesController.createInvoice(request, response, next);
-
-            expect(response.status).toHaveBeenCalledWith(200);
-            expect(response.json).toHaveBeenCalledWith({
-                message: "Invoice successfully uploaded.",
-                invoice: invoices[0]
-            });
-            //expect(InvoicesService.createInvoice).toHaveBeenCalledWith(request.body);
-        });
-
-    });
-
-    describe("deleteInvoice",() => {
-        it("should throw an error if the invoice doesn't exist", async () => {
-            request.params = {
-                id: 3,
-            };
-
-            vi.mocked(InvoicesService.getInvoiceById).mockResolvedValueOnce(null);
-
-            await InvoicesController.deleteInvoice(request,response,next);
-            expect(next).toHaveBeenCalled();
-            expect(next.mock.calls[0][0]).toBeInstanceOf(AppError);
-            expect(next.mock.calls[0][0].type).toBe("validation");
-            expect(next.mock.calls[0][0].message).toBeTypeOf("string");
-        });
-
-        it("should throw an error if the invoice is not the user's", async () => {
-            request.params = {
-                id: 2,
-            };
-
-            vi.mocked(InvoicesService.getInvoiceById).mockResolvedValueOnce(invoices[1]);
-
-            await InvoicesController.deleteInvoice(request,response,next);
-            expect(next).toHaveBeenCalled();
-            expect(next.mock.calls[0][0]).toBeInstanceOf(AppError);
-            expect(next.mock.calls[0][0].type).toBe("unauthorized");
-            expect(next.mock.calls[0][0].message).toBeTypeOf("string");
-
-        });
-
-        it("should successfully delete one's invoice if it exists", async () => {
-            request.params = {
-                id: 1,
-            };
-
-            vi.mocked(InvoicesService.getInvoiceById).mockResolvedValueOnce(invoices[0]);
-
-            await InvoicesController.deleteInvoice(request,response,next);
-            expect(InvoicesService.deleteInvoice).toHaveBeenCalledWith(1);
-        });
+        } as unknown as Response;*!/
+        request = {
+            body: {
+                title: "test title",
+                content:"content",
+                url: "https://test.com",
+                pretaxValue: "234",
+                VAT: "20",
+                idFrom: 1,
+                idTo: 2,
+                debit: true,
+                date: "04 Dec 1995 00:12:00 GMT",
+            }
+        } as Request;
     });
 
 
-    describe("getInvoiceById",() => {
-        it("should throw an error if the invoice doesn't exist", async () => {
-            request.params = {
-                id: 3,
-            };
-
-            vi.mocked(InvoicesService.getInvoiceById).mockResolvedValueOnce(null);
-
-            await InvoicesController.getInvoiceById(request,response,next);
-            expect(next).toHaveBeenCalled();
-            expect(next.mock.calls[0][0]).toBeInstanceOf(AppError);
-            expect(next.mock.calls[0][0].type).toBe("validation");
-            expect(next.mock.calls[0][0].message).toBeTypeOf("string");
+    it("should create and return a new invoice with its data", async () => {
+        vi.mocked(InvoicesService.createInvoice).mockResolvedValueOnce({
+            id:1,
+            title: "test title",
+            url: "https://test.com",
+            pretaxValue: 234,
+            VAT: 20,
+            createdAt:new Date(Date.parse("04 Dec 1995 00:12:00 GMT")),
+            date: new Date(Date.parse("04 Dec 1995 00:12:00 GMT")),
+            createdById: 1,
+            content: null,
+            updatedAt:null,
+            updatedById: null
         });
 
-        it("should throw an error if the invoice is not the user's", async () => {
-            request.params = {
-                id: 2,
-            };
+        InvoicesController.createInvoice(request, response, next);
 
-            vi.mocked(InvoicesService.getInvoiceById).mockResolvedValueOnce(invoices[1]);
-
-            await InvoicesController.getInvoiceById(request,response,next);
-            expect(next).toHaveBeenCalled();
-            expect(next.mock.calls[0][0]).toBeInstanceOf(AppError);
-            expect(next.mock.calls[0][0].type).toBe("unauthorized");
-            expect(next.mock.calls[0][0].message).toBeTypeOf("string");
-
-        });
-
-        it("should show one's invoice if it exists", async () => {
-            request.params = {
-                id: 1,
-            };
-
-            vi.mocked(InvoicesService.getInvoiceById).mockResolvedValueOnce(invoices[0]);
-
-            await InvoicesController.getInvoiceById(request,response,next);
-            expect(InvoicesService.getInvoiceById).toHaveBeenCalledWith(1);
-            expect(response.json).toHaveBeenCalledWith(invoices[0]);
-        });
+        //expect(created_invoice).toBe(true);
+        expect(response.status).toBe(200);
     });
-});
-*/
+});*/
+
+/*describe("get invoice by id", () => {
+
+});*/
+
+// update invoice
+
+
+// delete invoice
