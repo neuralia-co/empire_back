@@ -17,7 +17,6 @@ app.use("/auth", authRouter);
 app.get("/ping", (_req, res) => {
     const date = new Date;
     const info = "pong at " + (date.getUTCHours() + 2) + ":" + date.getUTCMinutes() + ":" + date.getUTCSeconds();
-    console.log(info);
     res.send(info);
 });
 

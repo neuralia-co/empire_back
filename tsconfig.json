@@ -4,7 +4,9 @@
     "outDir": "./build/",
     "module": "commonjs",
     "moduleResolution": "Node",
-    "baseUrl": "src/",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"]},
     "strict": true,
     "allowJs": true,
     "noUnusedLocals": true,
