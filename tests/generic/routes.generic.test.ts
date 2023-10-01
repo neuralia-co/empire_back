@@ -11,15 +11,16 @@ import request from "supertest";
 import app from "../../src/lib/createServer";
 
 describe("ping", () => {
-  it("should return 200", async () => {
-    const response = await request(app).get("/ping");
-    expect(response.status).toBe(200);
-  });
+    it("should return 200", async () => {
+        const response = await request(app).get("/ping");
+        expect(response.status).toBe(200);
+    });
 });
 
 describe("root", () => {
-  it("should return 200", async () => {
-    const response = await request(app).get("/");
-    expect(response.status).toBe(404);
-  });
+    it("should return 200", async () => {
+        const response = await request(app).get("/");
+        expect(response.status).toBe(404);
+    });
 });
+

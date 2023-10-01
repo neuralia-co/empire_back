@@ -7,8 +7,9 @@ test: calling create company with duplicated siren should return xxx
 */
 
 /* add empty default test to pass CI */
-describe('companies routes', () => {
-  it('should pass', () => {
-    expect(true).toBe(true);
-  });
+describe("companies routes", () => {
+    it("should pass", () => {
+        expect(true).toBe(true);
+    });
 });
+

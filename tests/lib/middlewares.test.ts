@@ -23,8 +23,9 @@ should succeed with a valid request
 */
 
 /* add empty default test to pass CI */
-describe('utility-classes', () => {
-  it('should pass', () => {
-    expect(true).toBe(true);
-  });
+describe("utility-classes", () => {
+    it("should pass", () => {
+        expect(true).toBe(true);
+    });
 });
+
