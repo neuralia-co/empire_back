@@ -14,8 +14,9 @@ declare module "express-serve-static-core" {
 
 export const errorHandler = (
     error: Error,
-    _: Request,
-    response: Response
+    _req: Request,
+    response: Response,
+    _next: NextFunction
 ) => {
     response
         .status("statusCode" in error ? (error.statusCode as number) : 500)

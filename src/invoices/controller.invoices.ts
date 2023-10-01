@@ -1,5 +1,5 @@
 import { RequestHandler, NextFunction,Request,Response } from "express";
-import type { CreateInvoiceSchema, IdInvoiceSchema } from "./schema.invoices";
+import type { CreateInvoiceSchema, IdInvoiceSchema, UpdateInvoiceSchema } from "./schema.invoices";
 import { AppError } from "../lib/utility-classes";
 import * as InvoicesServices from "./service.invoices";
 import { Prisma } from "@prisma/client";
@@ -14,6 +14,8 @@ export const createInvoice: RequestHandler = async (
     try {
         const invoice = await InvoicesServices.createInvoice(title,req.decodedToken.id, Number(pretaxValue), Number(VAT),content, url,idFrom,idTo,debit,date);
 
+        console.log("newly created invoice : " + JSON.stringify(invoice));
+
         res.status(200).json({
             message: "Invoice successfully uploaded!",
             invoice
@@ -23,6 +25,7 @@ export const createInvoice: RequestHandler = async (
         if (e instanceof Prisma.PrismaClientValidationError) {
             console.log(e.message);
         }
+        console.log("Erreur lors de la creation de la facture : \n",e);
         res.status(400).json({
             message: "invoice couldn't be created"
         });
@@ -50,7 +53,7 @@ export const getAllInvoicesFromCompany: RequestHandler = async (req,res) => {
         return next(new AppError("validation", "Invoice not found."));
     }
 
-    if (!(invoice.ownerId === req.decodedToken.id)) {
+    if (!(invoice.createdById === req.decodedToken.id)) {
         return next(
             new AppError(
                 "unauthorized",
@@ -77,19 +80,58 @@ export const getInvoiceById: RequestHandler<IdInvoiceSchema> = async (
     const invoiceId = parseInt(id);
     const invoice = await InvoicesServices.getInvoiceById(invoiceId);
 
+    console.log("Facture n" + id + " :\n" + JSON.stringify(invoice));
+
     if (!invoice) {
         return next(new AppError("validation", "Invoice not found."));
     }
 
-    /*if (!(invoice.ownerId === req.decodedToken.id)) {
+    res.json(invoice);
+
+};
+
+export const updateInvoiceById: RequestHandler<UpdateInvoiceSchema> = async (
+    req: Request<UpdateInvoiceSchema>,
+    res: Response,
+    next: NextFunction
+) => {
+    const { title, url, pretaxValue, VAT,date,id } = req.body;
+    const invoiceId = parseInt(id);
+    const invoice = await InvoicesServices.getInvoiceById(invoiceId);
+
+    console.log("Updated invoice : \n" + JSON.stringify(invoice));
+
+    if (!invoice) {
+        return next(new AppError("validation", "Invoice not found."));
+    }
+
+    /*if (!(invoice.invoice.createdById === req.decodedToken.id)) {
         return next(
             new AppError(
                 "unauthorized",
-                "You are not authorized to see this invoice."
+                "You are not authorized to delete this invoice."
             )
         );
     }*/
 
-    res.json(invoice);
+    try {
+        const updated = await InvoicesServices.updateInvoice(invoiceId,title,Number(pretaxValue),Number(VAT),url,date);
 
+        console.log("recently updated invoice : " + JSON.stringify(updated));
+
+        res.status(200).json({
+            message: "Invoice successfully updated.",
+            invoice: updated
+        });
+
+    } catch (e) {
+        if (e instanceof Prisma.PrismaClientValidationError) {
+            console.log(e.message);
+        }
+        console.log("Erreur lors de l'update de la facture : \n",e);
+        res.status(400).json({
+            message: "invoice couldn't be updated"
+        });
+        //throw e;
+    }
 };

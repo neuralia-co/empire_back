@@ -46,6 +46,8 @@ export const createInvoice = async (
                 debit: !debit
             },
         });
+
+        return newInvoice;
     }
 };
 
@@ -60,6 +62,26 @@ export const getAllInvoicesFromCompany = async (id: number) => {
     return prisma.invoicesOnCompanies.findMany({
         where: { company: { id: id } },
         include: { invoice: true },
+    });
+};
+
+export const updateInvoice = async (
+    id: number,
+    title: string,
+    pretaxValue: number,
+    VAT: number,
+    url: string,
+    date: string
+) => {
+    return prisma.invoice.update({
+        where: { id: id },
+        data: {
+            title: title,
+            pretaxValue: pretaxValue,
+            VAT: VAT,
+            url: url,
+            date: new Date(Date.parse(date))
+        },
     });
 };
 

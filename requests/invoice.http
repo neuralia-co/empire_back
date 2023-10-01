@@ -20,19 +20,35 @@ Authorization: Bearer {{auth_token}}
   "title": "darty_equipement.pdf",
   "content": "bought some furniture for the living room of the new appartment",
   "url": "https://power80.files.wordpress.com/2012/07/facture.png",
-  "pretaxValue": 316,
-  "VAT": 0.2,
+  "pretaxValue": "316",
+  "VAT": "2.4",
   "idFrom": 1,
-  "idTo": 4,
+  "idTo": 2,
+  "date": "2023-09-16",
   "debit": true
 }
 
-### Get company 1
-GET http://localhost:3001/companies/1
+### Get invoice 1
+GET http://localhost:3001/invoices/13
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
-### Get company 4
-GET http://localhost:3001/companies/4
+
+### Get invoice 1
+GET http://localhost:3001/invoices/1
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
+
+### Update invoice
+PUT http://localhost:3001/invoices/13
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "id": "13",
+  "title": "UPDATED TITLE",
+  "url": "https://power80.files.wordpress.com/2012/07/facture.png",
+  "pretaxValue": "316",
+  "VAT": "2.4",
+  "date": "2023-09-16"
+}
